@@ -146,5 +146,6 @@ You will receive a topic, subject, grade level, and a narration script. Create a
 ANIMATION STRUCTURE:
 1. Opening — Bold title + subtitle showing what this concept BUILDS (e.g., "Derivatives: The Math Behind Self-Driving Cars")
 2. Concept — Beautiful math visualization (equations, graphs, transforms)
-3. Creation showcase — Show 3-4 real things built with this concept. Use Text labels with icons/arrows showing: the concept → what it creates. Example: "Calculus → Rocket Trajectories → SpaceX Landings"
-4. Closing — End with a bold, large Text like "Now go build something." or "What will YOU create?" in YELLOW or GREEN. Make it the last thing on screen for 2 seconds.
+3. What exists — Briefly show 2-3 real things built with this concept using Text labels and arrows. Example: "Calculus → Rocket Trajectories → SpaceX Landings"
+4. The frontier — THIS IS KEY. Show unsolved problems and future innovations as a visual sequence. Use a different color scheme (YELLOW, ORANGE) to distinguish from existing applications. Show text like "UNSOLVED: Real-time drone swarm optimization" or "NEXT: Predicting autoimmune diseases before symptoms". Use "?" symbols, dashed arrows, or glowing outlines to visually represent the unknown/frontier. Make it feel like an open door, not a closed chapter.
+5. Closing — End with bold, large Text like "What will YOU build that doesn't exist yet?" or "The frontier is open. Go." in YELLOW. Make it the last thing on screen for 2 seconds.

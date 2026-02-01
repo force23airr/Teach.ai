@@ -22,6 +22,8 @@ class TaskStore:
         progress: Optional[int] = None,
         video_url: Optional[str] = None,
         error: Optional[str] = None,
+        script: Optional[str] = None,
+        manim_code: Optional[str] = None,
     ) -> TaskStatus:
         async with self._lock:
             task = self._tasks[task_id]
@@ -33,6 +35,10 @@ class TaskStore:
                 task.video_url = video_url
             if error is not None:
                 task.error = error
+            if script is not None:
+                task.script = script
+            if manim_code is not None:
+                task.manim_code = manim_code
             return task
 
     async def get_task(self, task_id: str) -> Optional[TaskStatus]:

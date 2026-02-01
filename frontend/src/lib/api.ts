@@ -1,4 +1,4 @@
-import { GenerateRequest, TaskStatus } from "./types";
+import { GenerateRequest, RenderRequest, TaskStatus } from "./types";
 
 const API_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000";
 
@@ -12,6 +12,20 @@ export async function generateVideo(
   });
   if (!res.ok) {
     throw new Error(`Failed to start generation: ${res.statusText}`);
+  }
+  return res.json();
+}
+
+export async function renderVideo(
+  request: RenderRequest
+): Promise<{ task_id: string }> {
+  const res = await fetch(`${API_URL}/api/render`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(request),
+  });
+  if (!res.ok) {
+    throw new Error(`Failed to start render: ${res.statusText}`);
   }
   return res.json();
 }
