@@ -1,10 +1,8 @@
 from pathlib import Path
 
-from openai import AsyncOpenAI
+import httpx
 
 from app.config import settings
-
-client = AsyncOpenAI(api_key=settings.openai_api_key)
 
 
 async def generate_narration(task_id: str, script: str) -> Path:
@@ -13,19 +11,29 @@ async def generate_narration(task_id: str, script: str) -> Path:
 
     output_path = output_dir / f"{task_id}_narration.mp3"
 
-    async with client.audio.speech.with_streaming_response.create(
-        model="gpt-4o-mini-tts",
-        voice="nova",
-        input=script,
-        instructions=(
-            "Speak with energy and enthusiasm, like a passionate science communicator "
-            "giving a TED talk. Moderate pace, clear enunciation. "
-            "Build excitement when discussing real-world applications."
-        ),
-        response_format="mp3",
-    ) as response:
+    url = f"https://api.elevenlabs.io/v1/text-to-speech/{settings.elevenlabs_voice_id}"
+
+    headers = {
+        "xi-api-key": settings.elevenlabs_api_key,
+        "Content-Type": "application/json",
+    }
+
+    payload = {
+        "text": script,
+        "model_id": "eleven_multilingual_v2",
+        "voice_settings": {
+            "stability": 0.4,
+            "similarity_boost": 0.75,
+            "style": 0.6,
+            "use_speaker_boost": True,
+        },
+    }
+
+    async with httpx.AsyncClient(timeout=120.0) as client:
+        response = await client.post(url, json=payload, headers=headers)
+        response.raise_for_status()
+
         with open(output_path, "wb") as f:
-            async for chunk in response.iter_bytes():
-                f.write(chunk)
+            f.write(response.content)
 
     return output_path

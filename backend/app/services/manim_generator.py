@@ -1,11 +1,11 @@
 import ast
 from pathlib import Path
 
-from openai import AsyncOpenAI
+import anthropic
 
 from app.config import settings
 
-client = AsyncOpenAI(api_key=settings.openai_api_key)
+client = anthropic.AsyncAnthropic(api_key=settings.anthropic_api_key)
 
 SYSTEM_PROMPT = (Path(__file__).parent.parent / "prompts" / "manim_system.txt").read_text()
 
@@ -21,17 +21,15 @@ async def generate_manim_code(
             "Fix the code to resolve this error. Output only the corrected Python code."
         )
 
-    response = await client.chat.completions.create(
-        model="gpt-4o",
-        messages=[
-            {"role": "system", "content": SYSTEM_PROMPT},
-            {"role": "user", "content": user_message},
-        ],
+    message = await client.messages.create(
+        model="claude-sonnet-4-20250514",
+        max_tokens=4096,
+        system=SYSTEM_PROMPT,
+        messages=[{"role": "user", "content": user_message}],
         temperature=0.4,
-        max_tokens=4000,
     )
 
-    code = response.choices[0].message.content
+    code = message.content[0].text
 
     # Strip markdown fences if present
     if code.startswith("```"):

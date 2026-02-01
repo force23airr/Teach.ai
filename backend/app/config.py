@@ -2,7 +2,9 @@ from pydantic_settings import BaseSettings
 
 
 class Settings(BaseSettings):
-    openai_api_key: str = ""
+    anthropic_api_key: str = ""
+    elevenlabs_api_key: str = ""
+    elevenlabs_voice_id: str = "EXAVITQu4vr4xnSDxMaL"  # "Sarah" - energetic female voice
     manim_quality: str = "-ql"
     output_dir: str = "./output"
     media_dir: str = "./media"
